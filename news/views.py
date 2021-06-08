@@ -1,9 +1,11 @@
 import requests
 from django.shortcuts import render, redirect
-from bs4 import BeautifulSoup as BSoup
+from bs4 import BeautifulSoup  as  BSoup
+from facebook_scraper import get_posts
 from news.models import Headline
 
 requests.packages.urllib3.disable_warnings()
+
 
 def news_list(request):
 	headlines = Headline.objects.all()[::-1]
@@ -13,9 +15,25 @@ def news_list(request):
 	return render(request, "news/home.html", context)
 
 def scrape(request):
+	
+
+	# TODO edit to turn into facebook scraping
+
+	for post in get_posts('nintendo', pages=3):
+		link = post['post_url']
+		image_src = post['image']
+		title = post['username']
+		new_headline = Headline()
+		new_headline.title = title
+		new_headline.url = link
+		new_headline.image = image_src
+		new_headline.description = post['post_text']
+		new_headline.date_posted = post['time']
+		new_headline.save()
+	"""
 	session = requests.Session()
 	session.headers = {"User-Agent": "Googlebot/2.1 (+http://www.google.com/bot.html)"}
-	url = "https://www.theonion.com/"
+	url = "https://www.vox.com/"
 
 	content = session.get(url, verify=False).content
 	soup = BSoup(content, "html.parser")
@@ -30,5 +48,6 @@ def scrape(request):
 		new_headline.url = link
 		new_headline.image = image_src
 		new_headline.save()
+	"""
 	return redirect("../")
 
