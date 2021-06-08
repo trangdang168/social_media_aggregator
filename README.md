@@ -8,3 +8,5 @@ Check out the blogs on DataFlair Website
 this project is explained on the platform DataFlair
 ## This project is developed by Karan Mittal
 ## Here is the link
+
+https://data-flair.training/blogs/django-project-news-aggregator-app/
