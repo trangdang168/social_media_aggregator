@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html>
 <head>
 	
@@ -11,7 +10,7 @@
 </head>
 <body>
 
-	<!-- Responsive navbar
+	<!-- Responsive navbar-->
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container">
 			<a class="navbar-brand" href="#!">Start Bootstrap</a>
@@ -19,70 +18,16 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 					<li class="nav-item"><a class="nav-link" href="">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="/manage.html">Manage Webpages</a></li>
+					<li class="nav-item"><a class="nav-link" href="/manage.html">Manage</a></li>
 				</ul>
 			</div>
 		</div>
-	</nav> -->
+	</nav>
 
-
-	<header class="py-5 bg-light border-bottom mb-4">
-		<div class="container">
-			<div class="text-center my-5">
-				<h1 class="fw-bolder">My News Aggregator</h1>
-				<p class="lead mb-0">News aggregator with bootstrap 5 starter layout</p>
-				<form method="POST" action="{% url 'scrape' %}">
-					{% csrf_token %}
-					<button type="submit" class="btn btn-primary">Get my morning news</button>
-				</form>
-			</div>
-		</div>
-	</header>
-	<div class="row">
-		<div class="col-lg-9">
-			<div class="card-columns" style="padding: 10px; margin: 20px;">
-				{% for object in object_list %}
-				<div class="card h-100">
-					<img class="card-img-top" src = "{{ object.image }}">
-					<div class="card-body">
-						<h2 class="card-title h4">{{object.title}}</h2>
-						<p class="card-text">{{object.description}}</p>
-						<a class="btn btn-primary" href="{{ object.url }}">Read more →</a>
-						<p class="card-text">
-							<small class="text-muted">
-								Posted {{ object.date_posted }}
-							</small>
-						</p>
-					</div>
-			</div>
-			{% endfor %}
-			</div>
-		</div>
-	
-		<!-- Side widget-->
-		<div class="col-lg-3">
-
-			<!-- Display links we are scraping from and the option to remove or add more -->
-
-			<div class="card mb-4">
-				<div class="card-header">Websites</div>
-				<div class="card-body">
-
-					INCLUDE LINK SCRAPPED FROM
-
-				</div>
-			</div>
-			</div>
-		</div>
-	</div>
-	
- </div>
-
-	
-  <!-- Footer-->
+    <!-- Footer-->
   <footer class="py-5 bg-dark">
 	<div class="container"><p class="m-0 text-center text-white">Designed by Trang Dang. Special thanks to DataFlair and Bootstrap template</p></div>
-</footer>
+    </footer>
 
 	<script
 	src="http://code.jquery.com/jquery-3.3.1.min.js"
@@ -93,4 +38,3 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
 </html>
-

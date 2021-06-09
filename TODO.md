@@ -13,8 +13,7 @@ pip install facebook-scraper
 - Lala use the argon template (already has user, login files and stuff)
 - dark mode
 - has card element to do the whole post thing
-- has side bar
-- pagenification
+
 ## Lower Priority
 - users and customizable websites
 - Users can log in and decide which social media platform they want to gather news/post from
