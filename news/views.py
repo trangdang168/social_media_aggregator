@@ -8,28 +8,37 @@ requests.packages.urllib3.disable_warnings()
 
 
 def news_list(request):
-	headlines = Headline.objects.all()[::-1]
+	headlines = Headline.objects.all()
 	context = {
 		'object_list': headlines,
 	}
 	return render(request, "news/home.html", context)
 
 def scrape(request):
-	
 
-	# TODO edit to turn into facebook scraping
+	# facebook	
+	face_book_pages = ["ChrisBrecheensWritingAboutWriting", "Parapenquyenchinh"]
+	for page in face_book_pages:
+		facebook_posts = get_posts(page, pages=3)
+		for post in facebook_posts:
+			link = post['post_url']
+			image_src = post['image']
+			title = post['username']
+			new_headline = Headline()
+			new_headline.title = title
+			new_headline.url = link
+			if image_src:
+				new_headline.image = image_src
+			else:
+				new_headline.image = "https://png.pngtree.com/thumb_back/fh260/background/20200821/pngtree-sky-blue-solid-color-background-wallpaper-image_396578.jpg"
+			new_headline.description = post['post_text']
+			new_headline.date_posted = post['time']
+			new_headline.save()
 
-	for post in get_posts('nintendo', pages=3):
-		link = post['post_url']
-		image_src = post['image']
-		title = post['username']
-		new_headline = Headline()
-		new_headline.title = title
-		new_headline.url = link
-		new_headline.image = image_src
-		new_headline.description = post['post_text']
-		new_headline.date_posted = post['time']
-		new_headline.save()
+	# reddit
+
+
+
 	"""
 	session = requests.Session()
 	session.headers = {"User-Agent": "Googlebot/2.1 (+http://www.google.com/bot.html)"}
