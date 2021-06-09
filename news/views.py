@@ -1,10 +1,13 @@
-import requests
+
 from django.shortcuts import render, redirect
-from bs4 import BeautifulSoup  as  BSoup
-from facebook_scraper import get_posts
+from django.forms import modelformset_factory
 from django.http import HttpResponseRedirect
 
-from news.models import Headline
+import requests
+from bs4 import BeautifulSoup  as  BSoup
+from facebook_scraper import get_posts
+
+from news.models import Headline, Webpage
 
 requests.packages.urllib3.disable_warnings()
 
@@ -32,12 +35,15 @@ def scrape(request):
 			image_src = post['image']
 			title = post['username']
 			new_headline = Headline()
+			if len(title) > 200:
+				title = title[:200]
 			new_headline.title = title
 			new_headline.url = link
-			if image_src:
-				new_headline.image = image_src
-			else:
-				new_headline.image = "https://png.pngtree.com/thumb_back/fh260/background/20200821/pngtree-sky-blue-solid-color-background-wallpaper-image_396578.jpg"
+			if len(image_src) > 512:
+				image_src = None
+			new_headline.image = image_src
+			# else:
+			# 	new_headline.image = "https://png.pngtree.com/thumb_back/fh260/background/20200821/pngtree-sky-blue-solid-color-background-wallpaper-image_396578.jpg"
 			new_headline.description = post['post_text']
 			new_headline.date_posted = post['time']
 			new_headline.id = link
@@ -48,7 +54,19 @@ def scrape(request):
 
 def manage(request):
 	# should turn up a page with a form
-	pass
+	WebpageFormSet = modelformset_factory(Webpage, fields=('url', 'platform'))
+	if request.method == "POST":
+		formset = WebpageFormSet(
+			request.POST, request.FILES,
+			queryset=Webpage.objects.all(),
+		)
+		if formset.is_valid():
+			formset.save()
+			# Do something.
+	else:
+		formset = WebpageFormSet(queryset=Webpage.objects.all())
+
+	return render(request, 'news/manage.html', {'formset': formset})
 
 
 
