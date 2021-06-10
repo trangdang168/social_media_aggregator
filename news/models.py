@@ -8,11 +8,11 @@ from django.db import models
 
 class Headline(models.Model):
 	title = models.CharField(max_length=200)
-	image = models.URLField(max_length=512, null=True, blank=True)
-	url = models.TextField()
+	image = models.URLField(max_length=200, null=True, blank=True)
+	url = models.TextField(primary_key=True)
 	date_posted = models.DateField()
 	description = models.TextField(default='')
-	id = models.TextField(primary_key=True)
+	# id = models.TextField(primary_key=True)
 
 	def __str__(self):
 		return self.title
@@ -23,7 +23,7 @@ PLATFORM_CHOICES = (
 	('reddit', 'reddit') 
 )
 class Webpage(models.Model):
-	url = models.URLField()
+	url = models.URLField(primary_key=True)
 	platform =  models.CharField(max_length=50, choices=PLATFORM_CHOICES)
 
 	def __str__(self):

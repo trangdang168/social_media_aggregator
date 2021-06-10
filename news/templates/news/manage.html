@@ -5,33 +5,48 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="descripstion" content="" />
 	<meta name="author" content="" />
-	<title>LOL SOCIAL MEDIA</title>
+	<title>Manage links</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
-
-	<!-- Responsive navbar-->
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<header class="py-5 bg-light border-bottom mb-4">
 		<div class="container">
-			<a class="navbar-brand" href="#!">Start Bootstrap</a>
-			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					<li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Manage</a></li>
-				</ul>
+			<div class="text-center my-5">
+				<h1 class="fw-bolder">My News Aggregator</h1>
+				<p class="lead mb-0">We add the links here!</p>
 			</div>
 		</div>
-	</nav>
+	</header>
 
-	<!-- <form method="post" action="">
-		{{ formset }}
-	</form> -->
-
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
+	<div class="row">
+		<div class="container">
+			<div class="card-deck">
+				<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Add webpage</h5>
+					<form action="/manage/" method="post">
+						<!-- hidden input to handle multiple forms -->
+						<input type="hidden" name="form_type" value="add_form">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+				</div>
+				<div class="card">
+				<div class="card-body">
+					<h5 class="card-title">Remove webpage</h5>
+					<form action="/manage/" method="post">
+						<input type="hidden" name="form_type" value="remove_form">
+						{% csrf_token %}
+						{{ form.as_p }}
+						<input type="submit" value="Submit">
+					</form>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
 
     <!-- Footer-->
