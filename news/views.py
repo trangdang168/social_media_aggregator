@@ -5,6 +5,8 @@ from django.http import HttpResponseRedirect
 import requests
 from bs4 import BeautifulSoup  as  BSoup
 from facebook_scraper import get_posts
+import praw
+from datetime import datetime 
 
 from news.models import Headline, Webpage
 from news.forms import WebpageForm
@@ -30,7 +32,12 @@ def news_list(request):
 def scrape(request):
 
 	saved_posts = Headline.objects.all()
+
+	# everytime we scrape new posts, we delete old posts in headlines 
+	
+
 	facebook_pages = Webpage.objects.filter(platform='fb')
+	reddit_pages = Webpage.objects.filter(platform='reddit')
 
 	for page in facebook_pages:
 		page_id = page.url.split("/")[-1]
@@ -49,6 +56,22 @@ def scrape(request):
 			new_headline.date_posted = post['time']
 			new_headline.id = link
 
+			if new_headline in saved_posts:
+				continue
+			new_headline.save()
+
+	reddit = praw.Reddit(client_id='NY5G1XH583D-oQ', client_secret='MnfvIW43gYzy_erL0xNaPfBZEzOMsw', user_agent='Web scraping')
+	for page in reddit_pages:
+		page_name = page.url.split("/")[-1]
+		posts = reddit.subreddit(page_name).new("day")
+		for post in posts:
+			new_headline = Headline()
+			new_headline.title = post.title
+			new_headline.url = post.url
+			new_headline.image = "https://upload.wikimedia.org/wikipedia/vi/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png"
+			new_headline.description = post.selftext
+			new_headline.date_posted = datetime.now()
+			new_headline.id = link
 			if new_headline in saved_posts:
 				continue
 			new_headline.save()
