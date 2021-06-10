@@ -9,7 +9,7 @@ from facebook_scraper import get_posts
 from news.models import Headline, Webpage
 from news.forms import WebpageForm
 
-requests.packages.urllib3.disable_warnings()
+# requests.packages.urllib3.disable_warnings()
 
 
 def news_list(request):
@@ -19,6 +19,12 @@ def news_list(request):
 		'object_list': headlines,
 		'webpage_list': webpages,
 	}
+
+	# delete post when butten is pressed
+	if request.POST and 'delete_page' in request.POST:
+		# get the page url and delete the page
+		page_to_delete = request.POST['delete_page_url']
+		Webpage.objects.get(url=page_to_delete).delete()
 	return render(request, "news/home.html", context)
 
 def scrape(request):
@@ -52,29 +58,25 @@ def scrape(request):
 
 def manage(request):
 	# should turn up a page with a form
-	if request.POST:
-		
-		form_p = WebpageForm(request.POST)
-		if form_p.is_valid():
 
-			if request.POST.get("form_type") == 'add_form':
-			
+	if request.POST and 'form_type' in request.POST:
+
+		# if the form webpage is submitted
+		if request.POST.get("form_type") == 'add_form':
+		
+			form_p = WebpageForm(request.POST)
+			if form_p.is_valid():
 				form_p.save()
-			else: # remove form
-				page= Webpage.objects.get(id= form_p.url)
-				page.delete()
-				
-			# go back to home page
-			return HttpResponseRedirect('/')
+		return redirect("../")
 	else:
 		form_p = WebpageForm()
 
 	context = {
-		'webpages': Webpage.objects.all(),
+		"webpages": Webpage.objects.all(),
 		"form": form_p,
 	}
 
-	return render(request, 'news/manage.html', {'form': form_p})
+	return render(request, 'news/manage.html', context)
 
 
 

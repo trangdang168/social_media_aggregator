@@ -5,53 +5,62 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 	<meta name="descripstion" content="" />
 	<meta name="author" content="" />
-	<title>Manage links</title>
+	<title>Add webpages</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
 	<header class="py-5 bg-light border-bottom mb-4">
 		<div class="container">
 			<div class="text-center my-5">
-				<h1 class="fw-bolder">My News Aggregator</h1>
-				<p class="lead mb-0">We add the links here!</p>
+				<h1 class="fw-bolder">Adding more websites</h1>
 			</div>
 		</div>
 	</header>
 
-	<div class="row">
-		<div class="container">
-			<div class="card-deck">
-				<div class="card">
-				<div class="card-body">
-					<h5 class="card-title">Add webpage</h5>
-					<form action="/manage/" method="post">
-						<!-- hidden input to handle multiple forms -->
-						<input type="hidden" name="form_type" value="add_form">
-						{% csrf_token %}
-						{{ form.as_p }}
-						<input type="submit" value="Submit">
-					</form>
-				</div>
-				</div>
-				<div class="card">
-				<div class="card-body">
-					<h5 class="card-title">Remove webpage</h5>
-					<form action="/manage/" method="post">
-						<input type="hidden" name="form_type" value="remove_form">
-						{% csrf_token %}
-						{{ form.as_p }}
-						<input type="submit" value="Submit">
-					</form>
-				</div>
+	<div class="container">
+		<div class="row">
+		  <div class="col-sm">
+			<div class="card-body">
+				<h5 class="card-title">Add webpage</h5>
+				
+				<p>Please make sure that the link doesn't end with a forward slash "/".</p>
+				<p>If you press cancel, whatever url or platform entered wouldn't be saved.</p>
+				<div class="container">
+					<div class="row">
+						<form action="/manage/" method="post">
+							<!-- hidden input to handle multiple forms -->
+							<input type="hidden" name="form_type" value="add_form">
+							{% csrf_token %}
+							{{ form.as_p }}
+							<input type="submit" value="Submit" class="btn btn-primary">
+							<form action="" method="post">
+								<input type="hidden" name="form_type" value="back_form">
+								{% csrf_token %}
+								<input type="submit" value="Cancel" class="btn btn-danger">
+							</form>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>
+		<div class="col-sm">
+			<div class="card-body">
+				<h5 class="card-title">Current websites</h5>
+				<ul class="list-group" style="padding-left: 2%;">
+					{% for page in webpages %}
+					<li class="list-group-flush">
+						<a href="{{page.url}}">{{page.url}}</a>
+					</li>
+					{% endfor %}
+				  </ul>
+			</div>
+		</div>
 	</div>
-
+</div>
 
     <!-- Footer-->
   <footer class="py-5 bg-dark">
-	<div class="container"><p class="m-0 text-center text-white">Designed by Trang Dang. Special thanks to DataFlair and Bootstrap template</p></div>
+	<div class="container"><p class="m-0 text-center text-white">Designed by Trang Dang. Special thanks to DataFlair and Bootstrap template.</p></div>
     </footer>
 
 	<script
