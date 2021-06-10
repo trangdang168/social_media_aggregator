@@ -6,13 +6,13 @@ import requests
 from bs4 import BeautifulSoup  as  BSoup
 from facebook_scraper import get_posts
 import praw
-from datetime import datetime 
+from datetime import datetime, timedelta 
 
 from news.models import Headline, Webpage
 from news.forms import WebpageForm
 
 # requests.packages.urllib3.disable_warnings()
-
+DAYS_KEPT_POST = 10
 
 def news_list(request):
 	webpages = Webpage.objects.all()
@@ -27,6 +27,7 @@ def news_list(request):
 		# get the page url and delete the page
 		page_to_delete = request.POST['delete_page_url']
 		Webpage.objects.get(url=page_to_delete).delete()
+
 	return render(request, "news/home.html", context)
 
 def scrape(request):
@@ -34,7 +35,9 @@ def scrape(request):
 	saved_posts = Headline.objects.all()
 
 	# everytime we scrape new posts, we delete old posts in headlines 
-	
+	old_posts = Headline.objects.filter(date_posted__gte=datetime.now()-timedelta(days=DAYS_KEPT_POST))
+	for old_post in old_posts:
+		old_post.delete()
 
 	facebook_pages = Webpage.objects.filter(platform='fb')
 	reddit_pages = Webpage.objects.filter(platform='reddit')
@@ -63,7 +66,7 @@ def scrape(request):
 	reddit = praw.Reddit(client_id='NY5G1XH583D-oQ', client_secret='MnfvIW43gYzy_erL0xNaPfBZEzOMsw', user_agent='Web scraping')
 	for page in reddit_pages:
 		page_name = page.url.split("/")[-1]
-		posts = reddit.subreddit(page_name).new("day")
+		posts = reddit.subreddit(page_name).new()
 		for post in posts:
 			new_headline = Headline()
 			new_headline.title = post.title
@@ -82,15 +85,18 @@ def scrape(request):
 def manage(request):
 	# should turn up a page with a form
 
-	if request.POST and 'form_type' in request.POST:
-
+	if request.POST and 'add_form' in request.POST:
 		# if the form webpage is submitted
-		if request.POST.get("form_type") == 'add_form':
 		
-			form_p = WebpageForm(request.POST)
-			if form_p.is_valid():
-				form_p.save()
+		form_p = WebpageForm(request.POST)
+		if form_p.is_valid():
+			form_p.save()
+		
+
+	elif request.POST and 'back_form' in request.POST:
+		
 		return redirect("../")
+
 	else:
 		form_p = WebpageForm()
 

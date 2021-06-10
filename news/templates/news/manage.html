@@ -29,20 +29,22 @@
 					<div class="row">
 						<form action="/manage/" method="post">
 							<!-- hidden input to handle multiple forms -->
-							<input type="hidden" name="form_type" value="add_form">
+							<input type="hidden" name="add_form">
 							{% csrf_token %}
 							{{ form.as_p }}
 							<input type="submit" value="Submit" class="btn btn-primary">
-							<form action="" method="post">
-								<input type="hidden" name="form_type" value="back_form">
-								{% csrf_token %}
-								<input type="submit" value="Cancel" class="btn btn-danger">
-							</form>
 						</form>
 					</div>
 				</div>
 			</div>
 		</div>
+
+		<form action="" method="post">
+			<input type="hidden" name="back_form">
+			{% csrf_token %}
+			<input type="submit" value="Done" class="btn btn-dark">
+		</form>
+
 		<div class="col-sm">
 			<div class="card-body">
 				<h5 class="card-title">Current websites</h5>
