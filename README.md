@@ -4,6 +4,19 @@
 
 This social media content aggregator is made to reduce my urge to scroll through social media platforms
 
+Check it out!
+
+Here's how the user can modify the pages they want to collect posts from. Here, we added [NY Times Facebook Page](https://www.facebook.com/nytimes).
+
+![Removing and adding links](https://recordit.co/UodSv1XJfF)
+
+The user can press "update newsfeed" to make the newsfeed collect posts from the current websites. We can see that some New York Times posts appear in the website after updating is completed.
+
+![before](http://recordit.co/0sYei99QCq)
+
+![after](https://recordit.co/3HI4jVILHw)
+
+
 ## Installation
 
 Setting up the environment.
