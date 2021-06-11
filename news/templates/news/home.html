@@ -10,80 +10,180 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<a class="navbar-brand" href="#!">Website aggregator</a>
+		</div>
+	</nav>
+
 	<header class="py-5 bg-light border-bottom mb-4">
 		<div class="container">
 			<div class="text-center my-5">
 				<h1 class="fw-bolder">My News Aggregator</h1>
 				<p class="lead mb-0">News aggregator with bootstrap 5 starter layout</p>
-				<form method="POST" action="{% url 'scrape' %}">
+
+
+				<!-- <table class="table table-borderlight">
+					<tbody>
+					  <tr>
+						<th scope="row"></th>
+						<td>
+							<form method="POST" action="{% url 'scrape' %}">
+								{% csrf_token %}
+								<button type="submit" class="btn btn-primary">Get my morning news</button>
+							</form>
+						</td>
+						</tr>
+						
+						<tr>
+						<th scope="row"></th>
+						<td>
+							<form method="POST" action="{% url 'manage' %}">
+								{% csrf_token %}
+								<button type="submit" class="btn btn-primary">add new links</button>
+							</form>
+							
+						</td>
+					  </tr>
+					</tbody> -->
+				  <!-- </table> -->
+
+				<!-- <form method="POST" action="{% url 'scrape' %}">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-primary">Get my morning news</button>
-				</form>
+				</form> -->
 			</div>
 
-			<div class="text-center my-5">
+			<!-- <div class="text-center my-5">
 				
 				<form method="POST" action="{% url 'manage' %}">
 					{% csrf_token %}
 					<button type="submit" class="btn btn-primary">add new links</button>
 				</form>
-			</div>
+			</div> -->
 
 
 		</div>
 	</header>
-	<div class="row">
-		<div class="col-lg-9">
-			<div class="card-columns" style="padding: 10px; margin: 20px;">
-				{% for object in object_list %}
-				<div class="card h-100">
-					{% if object.image %}
-					<img class="card-img-top" src = "{{ object.image }}">
-					{% endif %}
-					<div class="card-body">
-						<h2 class="card-title h4">{{object.title}}</h2>
-						<p class="card-text">{{object.description}}</p>
-						<a class="btn btn-primary" href="{{ object.url }}">Read more →</a>
-						<p class="card-text">
-							<small class="text-muted">
-								Posted {{ object.date_posted }}
-							</small>
-						</p>
+	<!-- Page content-->
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-9">
+				<div class="card-columns" style="padding: 10px; margin: 20px;">
+					{% for object in object_list %}
+					<div class="card h-100">
+						{% if object.image %}
+						<img class="card-img-top" src = "{{ object.image }}">
+						{% endif %}
+						<div class="card-body">
+							<h2 class="card-title h4">{{object.title}}</h2>
+							<p class="card-text">{{object.description}}</p>
+							<a class="btn btn-primary" href="{{ object.url }}">Read more →</a>
+							<p class="card-text">
+								<small class="text-muted">
+									Posted {{ object.date_posted }}
+								</small>
+							</p>
+						</div>
 					</div>
-				</div>
-			{% endfor %}
-			</div>
-		</div>
-	
-		<!-- Side widget-->
-		<div class="col-lg-3">
-
-			<!-- Display links we are scraping from and the option to remove or add more -->
-
-			<div class="card mb-4">
-				<div class="card-header">Websites</div>
-				<div class="card-body">
-					<ul class="list-group" style="padding-left: 2%;">
-						{% for page in webpage_list %}
-						<li class="list-group-flush justify-content-between align-items-center">
-							{{page.url}}
-
-							<form action="" method="POST">
-								{% csrf_token %}
-								<input type="hidden" value="{{ page.url }}" name="delete_page_url">
-								<input class="btn btn-default btn-small btn-outline-danger" name="delete_page" type="submit" value="delete"/>
-							  </form>
-
-						</li>
-						{% endfor %}
-					  </ul>
+				{% endfor %}
 				</div>
 			</div>
+		
+			<!-- Side widget-->
+			<div class="col-lg-3">
+
+				<!-- <div class="card mb-4">
+					<div class="card-header">Manage news</div>
+					<div class="card-body"> -->
+
+						<!-- <ul>
+							<li>
+								<form method="POST" action="{% url 'scrape' %}">
+									{% csrf_token %}
+									<button type="submit" class="btn btn-primary">Update newsfeed</button>
+								</form>
+							</li>
+							<li>
+								<form method="POST" action="{% url 'manage' %}">
+									{% csrf_token %}
+									<button type="submit" class="btn btn-primary">add new links</button>
+								</form>
+							</li>
+						</ul> -->
+
+						<table class="table table-borderless" style="width:20%;">
+							<thead>
+								<tr>
+								  <th scope="col"></th>
+								  <th scope="col">Manage websites</th>
+								</tr>
+							  </thead>
+							<tbody>
+							<tr>
+								<th scope="row"></th>
+								<td>
+									<form method="POST" action="{% url 'scrape' %}">
+										{% csrf_token %}
+										<button type="submit" class="btn btn-primary">Update newsfeed</button>
+									</form>
+								</td>
+								</tr>
+								<tr>
+								<th scope="row"></th>
+								<td>
+									<form method="POST" action="{% url 'manage' %}">
+										{% csrf_token %}
+										<button type="submit" class="btn btn-primary">add new links</button>
+									</form>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+					<!-- </div>
+				</div> -->
+
+				<!-- Display links we are scraping from and the option to remove or add more -->
+
+				<!-- <div class="card mb-4">
+					<div class="card-header">Websites</div>
+					<div class="card-body"> -->
+
+						<table class="table table-borderless" style="width:100%;">
+							
+							<thead>
+								<tr>
+								  <th scope="col"></th>
+								  <th scope="col">Current Websites</th>
+								</tr>
+							  </thead>
+							
+							<tbody>
+								{% for page in webpage_list %}
+							<tr>
+								<th scope="row">
+									<form action="" method="POST">
+										{% csrf_token %}
+										<input type="hidden" value="{{ page.url }}" name="delete_page_url">
+										<input class="btn btn-default btn-small btn-outline-danger" name="delete_page" type="submit" value="remove"/>
+									</form>
+								</th>
+								<td>
+									{{page.url}}
+								</td>
+								{% endfor %}
+							</tr>
+							</tbody>
+						</table>
+					
+					<!-- </div>
+				</div> -->
+
+				
 			</div>
 		</div>
 	</div>
-	
- </div>
 
 	
   <!-- Footer-->

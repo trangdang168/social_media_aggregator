@@ -40,10 +40,14 @@ def scrape(request):
 		old_post.delete()
 
 	facebook_pages = Webpage.objects.filter(platform='fb')
-	reddit_pages = Webpage.objects.filter(platform='reddit')
+	# issues with the reddit scrapping account
+	# reddit_pages = Webpage.objects.filter(platform='reddit')
 
 	for page in facebook_pages:
-		page_id = page.url.split("/")[-1]
+		page_id = page.url
+		if page_id[-1]=="/":
+			page_id = page_id[:-1]
+		page_id = page_id.split("/")[-1]
 		facebook_posts = get_posts(page_id, pages=3)
 		for post in facebook_posts:
 			link = post['post_url']
@@ -63,21 +67,25 @@ def scrape(request):
 				continue
 			new_headline.save()
 
-	reddit = praw.Reddit(client_id='NY5G1XH583D-oQ', client_secret='MnfvIW43gYzy_erL0xNaPfBZEzOMsw', user_agent='Web scraping')
-	for page in reddit_pages:
-		page_name = page.url.split("/")[-1]
-		posts = reddit.subreddit(page_name).new()
-		for post in posts:
-			new_headline = Headline()
-			new_headline.title = post.title
-			new_headline.url = post.url
-			new_headline.image = "https://upload.wikimedia.org/wikipedia/vi/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png"
-			new_headline.description = post.selftext
-			new_headline.date_posted = datetime.now()
-			new_headline.id = link
-			if new_headline in saved_posts:
-				continue
-			new_headline.save()
+	# reddit = praw.Reddit(client_id='NY5G1XH583D-oQ', client_secret='MnfvIW43gYzy_erL0xNaPfBZEzOMsw', user_agent='Web scraping')
+	# for page in reddit_pages:
+	# 	page_name = page.url
+	# 	if page_name[-1]=="/":
+	# 		page_name = page_name[:-1]
+	# 	page_name = page_name.split('/')[-1]
+	# 	posts = reddit.subreddit('MachineLearning').hot(limit=10)
+
+	# 	for post in posts:
+	# 		new_headline = Headline()
+	# 		new_headline.title = post.title
+	# 		new_headline.url = post.url
+	# 		new_headline.image = "https://upload.wikimedia.org/wikipedia/vi/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png"
+	# 		new_headline.description = post.selftext
+	# 		new_headline.date_posted = datetime.now()
+	# 		new_headline.id = link
+	# 		if new_headline in saved_posts:
+	# 			continue
+	# 		new_headline.save()
 
 	# reddit
 	return redirect("../")

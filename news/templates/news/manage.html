@@ -13,6 +13,11 @@
 		<div class="container">
 			<div class="text-center my-5">
 				<h1 class="fw-bolder">Adding more websites</h1>
+				<form action="" method="post">
+					<input type="hidden" name="back_form">
+					{% csrf_token %}
+					<input type="submit" value="Done" class="btn btn-dark">
+				</form>
 			</div>
 		</div>
 	</header>
@@ -22,9 +27,8 @@
 		  <div class="col-sm">
 			<div class="card-body">
 				<h5 class="card-title">Add webpage</h5>
-				
-				<p>Please make sure that the link doesn't end with a forward slash "/".</p>
-				<p>If you press cancel, whatever url or platform entered wouldn't be saved.</p>
+				<p>IMPORTANT: If you press cancel, whatever url or platform entered wouldn't be saved.</p>
+				<p>Note: Currently, we cannot scrape websites from reddits.</p>
 				<div class="container">
 					<div class="row">
 						<form action="/manage/" method="post">
@@ -38,12 +42,6 @@
 				</div>
 			</div>
 		</div>
-
-		<form action="" method="post">
-			<input type="hidden" name="back_form">
-			{% csrf_token %}
-			<input type="submit" value="Done" class="btn btn-dark">
-		</form>
 
 		<div class="col-sm">
 			<div class="card-body">
