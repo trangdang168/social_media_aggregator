@@ -5,16 +5,21 @@ from django.http import HttpResponseRedirect
 import requests
 from bs4 import BeautifulSoup  as  BSoup
 from facebook_scraper import get_posts
-import praw
+# import praw
 from datetime import datetime, timedelta 
 
 from news.models import Headline, Webpage
 from news.forms import WebpageForm
 
 # requests.packages.urllib3.disable_warnings()
-DAYS_KEPT_POST = 10
+DAYS_KEPT_POST = 10 # number of days the posts will be kept in the database
 
 def news_list(request):
+	"""
+	Generate the newsfeed and the list of webpages the user is following based on 
+	the current database.
+	Also handle the removal of a current website.
+	"""
 	webpages = Webpage.objects.all()
 	headlines = Headline.objects.all()
 	context = {
@@ -22,15 +27,19 @@ def news_list(request):
 		'webpage_list': webpages,
 	}
 
-	# delete post when butten is pressed
+	# delete post when button is pressed
 	if request.POST and 'delete_page' in request.POST:
-		# get the page url and delete the page
 		page_to_delete = request.POST['delete_page_url']
 		Webpage.objects.get(url=page_to_delete).delete()
 
 	return render(request, "news/home.html", context)
 
 def scrape(request):
+	"""
+	Clean up the posts database and fetch the most current posts
+	from the websites.
+	Currently can only handle facebook
+	"""
 
 	saved_posts = Headline.objects.all()
 
@@ -41,7 +50,6 @@ def scrape(request):
 
 	facebook_pages = Webpage.objects.filter(platform='fb')
 	# issues with the reddit scrapping account
-	# reddit_pages = Webpage.objects.filter(platform='reddit')
 
 	for page in facebook_pages:
 		page_id = page.url
@@ -67,30 +75,40 @@ def scrape(request):
 				continue
 			new_headline.save()
 
-	# reddit = praw.Reddit(client_id='NY5G1XH583D-oQ', client_secret='MnfvIW43gYzy_erL0xNaPfBZEzOMsw', user_agent='Web scraping')
-	# for page in reddit_pages:
-	# 	page_name = page.url
-	# 	if page_name[-1]=="/":
-	# 		page_name = page_name[:-1]
-	# 	page_name = page_name.split('/')[-1]
-	# 	posts = reddit.subreddit('MachineLearning').hot(limit=10)
 
-	# 	for post in posts:
-	# 		new_headline = Headline()
-	# 		new_headline.title = post.title
-	# 		new_headline.url = post.url
-	# 		new_headline.image = "https://upload.wikimedia.org/wikipedia/vi/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png"
-	# 		new_headline.description = post.selftext
-	# 		new_headline.date_posted = datetime.now()
-	# 		new_headline.id = link
-	# 		if new_headline in saved_posts:
-	# 			continue
-	# 		new_headline.save()
+	"""
+	reddit = praw.Reddit(client_id='WlN5eTWA0QknHw', client_secret='9T5wUs71FRn2yyWkM7P-XXFvSJgaAQ', 
+					user_agent='User-Agent: website:social_media_aggregator:v0.0.0 (by /u/SneezingFridge)', 
+					redirect_uri="http://localhost:8080" )
+	# haven't done reddit yet because of complex authentication
+	reddit_pages = Webpage.objects.filter(platform='reddit')
+	for page in reddit_pages:
+		page_name = page.url
+		if page_name[-1]=="/":
+			page_name = page_name[:-1]
+		page_name = page_name.split('/')[-1]
+		posts = reddit.subreddit('MachineLearning').hot(limit=10)
+		for post in posts:
+			print(post.title)
 
-	# reddit
+		for post in posts:
+			new_headline = Headline()
+			new_headline.title = post.title
+			new_headline.url = post.url
+			new_headline.image = "https://upload.wikimedia.org/wikipedia/vi/thumb/b/b4/Reddit_logo.svg/1200px-Reddit_logo.svg.png"
+			new_headline.description = post.selftext
+			new_headline.date_posted = datetime.now()
+			new_headline.id = link
+			if new_headline in saved_posts:
+				continue
+			new_headline.save()
+	"""
 	return redirect("../")
 
 def manage(request):
+	"""
+	Presents the user with a form to add more links to follow. 
+	"""
 	# should turn up a page with a form
 
 	if request.POST and 'add_form' in request.POST:
@@ -100,9 +118,7 @@ def manage(request):
 		if form_p.is_valid():
 			form_p.save()
 		
-
 	elif request.POST and 'back_form' in request.POST:
-		
 		return redirect("../")
 
 	else:

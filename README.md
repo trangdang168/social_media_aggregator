@@ -10,6 +10,7 @@ The newsfeed is designed poorly on purpose:
 - We only correct the newest posts from the pages, meaning that the users might not always get something new every time they press the button. This is the exact opposite of facebook, when the user intuitively knew that they would be rewarded with new information everytime something reloads.
 - We ignore comments and reactions to discourage users interactions with posts.
 - It's easy to delete links, but users need to take extra steps to add more platforms by going to another site.
+- Currently, it only works with Facebook pages.
 
 ## Check it out
 
