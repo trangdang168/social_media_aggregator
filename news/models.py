@@ -13,6 +13,7 @@ class Headline(models.Model):
 	date_posted = models.DateField()
 	description = models.TextField(default='')
 	# id = models.TextField(primary_key=True)
+	# newsreader = models.ForeignKey
 
 	def __str__(self):
 		return self.title

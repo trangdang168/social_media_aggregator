@@ -2,6 +2,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect
 
+#from django.contrib.auth.decorators import login_required
+#from django.contrib.auth.mixins import LoginRequiredMixin
+
 import requests
 from bs4 import BeautifulSoup  as  BSoup
 from facebook_scraper import get_posts
@@ -11,9 +14,11 @@ from datetime import datetime, timedelta
 from news.models import Headline, Webpage
 from news.forms import WebpageForm
 
+
 # requests.packages.urllib3.disable_warnings()
 DAYS_KEPT_POST = 10 # number of days the posts will be kept in the database
 
+#@login_required
 def news_list(request):
 	"""
 	Generate the newsfeed and the list of webpages the user is following based on 
@@ -131,5 +136,8 @@ def manage(request):
 
 	return render(request, 'news/manage.html', context)
 
-
+#class NewsListByUser(LoginRequiredMixin, View):
+#
+#	def get_queryset(self):
+#		return Headline.objects.filter(newsreader=self.request.user)
 

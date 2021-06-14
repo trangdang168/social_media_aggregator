@@ -23,7 +23,10 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('notes/', include("notepad.urls")),
-    path('', include("news.urls")),
+    path('', include("accounts.urls")),
+    path('accounts/', include('django.contrib.auth.urls')),
+    
+    path('news/', include('news.urls')),
 ]
 
 if settings.DEBUG:
