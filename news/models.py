@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -12,8 +13,8 @@ class Headline(models.Model):
 	url = models.TextField(primary_key=True)
 	date_posted = models.DateField()
 	description = models.TextField(default='')
-	# id = models.TextField(primary_key=True)
-	# newsreader = models.ForeignKey
+	# TODO check including more users
+	# users = models.ManyToManyField(User)
 
 	def __str__(self):
 		return self.title
@@ -26,6 +27,7 @@ PLATFORM_CHOICES = (
 class Webpage(models.Model):
 	url = models.URLField(primary_key=True)
 	platform =  models.CharField(max_length=50, choices=PLATFORM_CHOICES)
+	# users = models.ManyToManyField(User)
 
 	def __str__(self):
 		return self.url

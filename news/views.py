@@ -18,13 +18,17 @@ from news.forms import WebpageForm
 # requests.packages.urllib3.disable_warnings()
 DAYS_KEPT_POST = 10 # number of days the posts will be kept in the database
 
-#@login_required
+@login_required
 def news_list(request):
 	"""
 	Generate the newsfeed and the list of webpages the user is following based on 
 	the current database.
 	Also handle the removal of a current website.
 	"""
+
+	# get the current user
+	user_name = request.user.is_authenticated
+
 	webpages = Webpage.objects.all()
 	headlines = Headline.objects.all()
 	context = {
@@ -39,6 +43,7 @@ def news_list(request):
 
 	return render(request, "news/home.html", context)
 
+@login_required
 def scrape(request):
 	"""
 	Clean up the posts database and fetch the most current posts
@@ -110,6 +115,7 @@ def scrape(request):
 	"""
 	return redirect("../")
 
+@login_required
 def manage(request):
 	"""
 	Presents the user with a form to add more links to follow. 
