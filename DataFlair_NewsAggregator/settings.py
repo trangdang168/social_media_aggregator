@@ -131,4 +131,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 MEDIA_URL = 'media/'
 MEDIA_ROOT = os.path.join(VENV_PATH, 'media_root')
 
+# TODO add Log out, log in redirected to main page
 LOGIN_REDIRECT_URL = 'acc-home'
