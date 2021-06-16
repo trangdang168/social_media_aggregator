@@ -1,2 +1,18 @@
-<h1> You are now logged out {{ user }} </h1>
+{% extends 'registration/base.html' %}
+
+{% block title %}Logged out{% endblock %}
+{% block content %}
+
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Sign back in to use the website aggregator!</h1>
+        </div>
+    </div>
+</header> 
+
+<h1> You are now logged out! </h1>
 <a href="{% url 'login'%}">Click here to login again.</a>
+<a href="{% url 'sign-up'%}">Click here to sign up for a new account.</a>
+
+{% endblock %}

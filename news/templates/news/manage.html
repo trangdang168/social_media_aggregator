@@ -1,14 +1,6 @@
-<html>
-<head>
-	
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-	<meta name="descripstion" content="" />
-	<meta name="author" content="" />
-	<title>Add webpages</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-</head>
-<body>
+{% extends 'news/base.html' %}
+{% block title %}Manage Webpages{% endblock %}
+{% block content %}
 	<header class="py-5 bg-light border-bottom mb-4">
 		<div class="container">
 			<div class="text-center my-5">
@@ -20,7 +12,7 @@
 				</form>
 			</div>
 		</div>
-	</header>
+	</header> 
 
 	<div class="container">
 		<div class="row">
@@ -57,18 +49,4 @@
 		</div>
 	</div>
 </div>
-
-    <!-- Footer-->
-  <footer class="py-5 bg-dark">
-	<div class="container"><p class="m-0 text-center text-white">Designed by Trang Dang. Special thanks to DataFlair and Bootstrap template.</p></div>
-    </footer>
-
-	<script
-	src="http://code.jquery.com/jquery-3.3.1.min.js"
-	integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-	crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
-</html>
+{% endblock %}

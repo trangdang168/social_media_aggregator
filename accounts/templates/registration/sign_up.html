@@ -1,8 +1,35 @@
-<form method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Sign up">
-</form>
+{% extends 'registration/base.html' %}
 
-<p>Already signed up? Log in instead!</p>
-<a href="{% url 'login' %}">Log In</a>
+{% block title %}Sign up{% endblock %}
+{% block content %}
+
+<header class="py-5 bg-light border-bottom mb-4">
+    <div class="container">
+        <div class="text-center my-5">
+            <h1 class="fw-bolder">Sign up to use the website aggregator!</h1>
+        </div>
+    </div>
+</header> 
+
+<div class="container">
+    <div class="row">
+      <div class="col-sm">
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Sign up" class="btn btn-primary">
+        </form>
+      </div>
+
+      <div class="col-sm">
+        <div class="d-flex justify-content-center">
+            <p>Already signed up? Log in instead!</p>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a href="{% url 'login' %}" class="btn btn-light active" role="button" aria-pressed="true">Log in</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock %}
